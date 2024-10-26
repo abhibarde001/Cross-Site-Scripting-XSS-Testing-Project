@@ -1,0 +1,75 @@
+What is Cross Site Scripting (XSS) ?
+Cross Site Scripting (XSS) is a vulnerability in a web application
+that allows a third party to execute a script in the user’s 
+browser on behalf of the web application.
+Cross-site Scripting is one of the most prevalent vulnerabilities present on the web today.
+The exploitation of XSS against a user can lead to various consequences such as account compromise, 
+account deletion, privilege escalation, 
+malware infection and many more.
+
+In its initial days, it was called CSS and it was not exactly what it is today. Initially, it was discovered that a malicious website could utilize JavaScript to read data from other website’s responses by embedding them in an iframe, run scripts and modify page contents. It was called CSS (Cross Site Scripting) then. The definition changed when Netscape introduced the Same Origin Policy and cross-site scripting was restricted from enabling cross-origin response reading. Soon it was recommended to call this vulnerability as XSS to avoid confusion with Cascading Style Sheets(CSS). The possibility of getting XSSed arises when a website does not properly handle the input provided to it from a user before inserting it into the response. In such a case, a crafted input can be given that when embedded in the response acts as a JS code block and is executed by the browser. Depending on the context, there are two types of XSS –
+
+1 Reflected XSS: 
+               If the input has to be provided each time to execute, such XSS is called reflected. These attacks are mostly carried out by delivering a payload directly to the victim. Victim requests a page with a request containing the payload and the payload comes embedded in the response as a script. An example of reflected XSS is XSS in the search field.
+
+2 Stored XSS: When the response containing the payload is stored on the server in such a way that the script gets executed on every visit without submission of payload, then it is identified as stored XSS. An example of stored XSS is XSS in the comment thread.
+There is another type of XSS called DOM based XSS and its instances are either reflected or stored. DOM-based XSS arises when user-supplied data is provided to the DOM objects without proper sanitizing. An example of code vulnerable to XSS is below, notice the variables firstname and lastname : 
+
+<?php
+
+if(isset($_GET["firstname"]) && isset($_GET["lastname"]))
+{ 
+
+	$firstname = $_GET["firstname"];
+	$lastname = $_GET["lastname"]; 
+
+	if($firstname == "" or $lastname == "")
+	{
+
+		echo "<font color=\"red\">Please enter both fields...</font>";	 
+
+	}
+
+	else		
+	{ 
+
+		echo "Welcome " . $firstname. " " . $lastname; 
+
+	}
+}
+?>
+
+User-supplied input is directly added in the response without any sanity check. Attacker an input something like – 
+
+html:
+<script> alert(1) </script>
+
+and it will be rendered as JavaScript.   There are two aspects of XSS (and any security issue) –
+
+1.Developer : If you are a developer, the focus would be secure development to avoid having any security holes in the product.
+You do not need to dive very deep into the exploitation aspect, just have to use tools and libraries while applying the best
+practices for secure code development as prescribed by security researchers. Some resources for developers are – a). 
+OWASP Encoding Project : It is a library written in Java that is developed by the Open Web Application Security Project(OWASP). 
+It is free, open source and easy to use. b). The “X-XSS-Protection” Header : 
+This header instructs the browser to activate the inbuilt XSS auditor to identify and block any XSS attempts against the user. c). 
+The XSS Protection Cheat Sheet by OWASP : This resource enlists rules to be followed during development with proper examples. 
+The rules cover a large variety of cases where a developer can miss something that can lead to the website being vulnerable to XSS. d). 
+Content Security Policy : It is a stand-alone solution for XSS like problems, it instructs the browser about “safe” sources apart from 
+which no script should be executed from any origin.
+
+2.Security researchers: Security researchers, on the other hand, would like similar resources to help them hunt down instances where the developer 
+became lousy and left an entry point. Researchers can make use of – a). CheatSheets –
+1. XSS filter evasion cheat sheet by OWASP. 2. XSS cheat sheet by Rodolfo Assis.
+3. XSS cheat sheet by Veracode. b). Practice Labs –
+1. bWAPP 
+2. DVWA(Damn vulnerable Web Application)
+3. prompt.ml 
+4. CTFs c). Reports –
+1. Hackerone Hacktivity 
+2. Personal blogs of eminent security researchers like Jason Haddix, Geekboy, Prakhar Prasad, Dafydd Stuttard(Portswigger) etc.
+
+
+                                                                                                                                                  Thank You
+
+
+                                                                                                                                                Abhishek Barde
